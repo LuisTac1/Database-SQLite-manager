@@ -4,6 +4,9 @@ from tkinter import filedialog as fd
 from tkcalendar import * # Instalar tkcalendar
 import json
 
+import sqlite3
+import pandas as pd
+
 class MainWindow(Frame):
 
     def __init__(self):
@@ -79,25 +82,13 @@ class MainWindow(Frame):
             
             print(v_name, v_sur, v_age, v_gender, v_mail, v_numb)
 
-            # Data to be written
-            dictionary = {
-                "people_id": '...',
-                "first_name": v_name,
-                "last_name": v_sur,
-                "age": v_age,
-                "gender": v_gender,
-                "e_mail": v_mail,
-                "number": v_numb
-            }
-            
-            # Serializing json
-            json_object = json.dumps(dictionary, indent=4)
-            
-            # Writing to sample.json
-            with open("entry.json", "w") as outfile:
-                outfile.write(json_object)
+            # add columns and index in file
+            sql_query = f"INSERT INTO {tb_name} ({cl_name1}, {cl_name2}, {cl_name3}, {cl_name4}, {cl_name5}, {cl_name6}) VALUES (?,?,?,?,?,?)"
+            cursor.execute(sql_query, (v_name, v_sur, v_age, v_gender, v_mail, v_numb))
+            database.commit()
+                
+                
 
-        
         def selection():
             selected = self.var.get()
             if selected == 1:
@@ -163,15 +154,32 @@ class MainWindow(Frame):
         def send():
             global db_name
             db_name = E1.get()
+            global tb_name
             tb_name = E2.get()
+
+            global cl_name1
             cl_name1 = Eb1.get()
+            global cl_name2
             cl_name2 = Eb2.get()
+            global cl_name3
             cl_name3 = Eb3.get()
+            global cl_name4
             cl_name4 = Eb4.get()
+            global cl_name5
             cl_name5 = Eb5.get()
+            global cl_name6
             cl_name6 = Eb6.get()
 
             print(db_name, tb_name, cl_name1, cl_name2, cl_name3, cl_name4, cl_name5, cl_name6)
+
+            # connects with the file
+            global database
+            database = sqlite3.connect(f'{db_name}.db')
+            global cursor
+            cursor = database.cursor()
+            # create the file
+            sql_query = f"CREATE TABLE IF NOT EXISTS {tb_name} ({cl_name1} TEXT, {cl_name2} TEXT, {cl_name3} TEXT, {cl_name4} TEXT, {cl_name5} TEXT, {cl_name6} TEXT)"
+            cursor.execute(sql_query)            
 
 
         L1 = Label(self.master, bg="#DCDEDE", text="Database name", font=('System', 9))
@@ -223,7 +231,6 @@ class MainWindow(Frame):
 
     def table(self):
 
-        import test
         tbl_frame = Frame(self.master, height=400, width=200)
         tbl_frame.pack(side='top', fill='both')
         tbl = ttk.Treeview(tbl_frame, height=15)
