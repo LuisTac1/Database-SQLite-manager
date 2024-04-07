@@ -1,11 +1,13 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog as fd
-from tkcalendar import * # Instalar tkcalendar
-import json
+from tkcalendar import * # install tkcalendar
 
 import sqlite3
-import pandas as pd
+import pandas as pd # install pandas
+import json
+
+import manage
 
 class MainWindow(Frame):
 
@@ -70,7 +72,6 @@ class MainWindow(Frame):
             E4.delete(0, 'end')
             E5.delete(0, 'end')
 
-###############
 
         def send():
             v_name = E1.get()
@@ -85,8 +86,7 @@ class MainWindow(Frame):
             # add columns and index in file
             sql_query = f"INSERT INTO {tb_name} ({cl_name1}, {cl_name2}, {cl_name3}, {cl_name4}, {cl_name5}, {cl_name6}) VALUES (?,?,?,?,?,?)"
             cursor.execute(sql_query, (v_name, v_sur, v_age, v_gender, v_mail, v_numb))
-            database.commit()
-                
+            database.commit() 
                 
 
         def selection():
@@ -99,7 +99,7 @@ class MainWindow(Frame):
             elif selected == 3:
                 output =  "N/specify"
             # L4.config(text=output)
-###############
+
 
         L1 = Label(self.master, bg="#DCDEDE", text="First name", font=('System', 9))
         L1.place(x=290,y=40)
@@ -150,7 +150,7 @@ class MainWindow(Frame):
 
 
     def layar_left(self):
-
+        
         def send():
             global db_name
             db_name = E1.get()
@@ -171,7 +171,7 @@ class MainWindow(Frame):
             cl_name6 = Eb6.get()
 
             print(db_name, tb_name, cl_name1, cl_name2, cl_name3, cl_name4, cl_name5, cl_name6)
-
+            
             # connects with the file
             global database
             database = sqlite3.connect(f'{db_name}.db')
@@ -179,8 +179,22 @@ class MainWindow(Frame):
             cursor = database.cursor()
             # create the file
             sql_query = f"CREATE TABLE IF NOT EXISTS {tb_name} ({cl_name1} TEXT, {cl_name2} TEXT, {cl_name3} TEXT, {cl_name4} TEXT, {cl_name5} TEXT, {cl_name6} TEXT)"
-            cursor.execute(sql_query)            
+            cursor.execute(sql_query)
 
+            dictionary = {
+                "databank": db_name,
+                "table": tb_name,
+                "name": cl_name1,
+                "surname": cl_name2,
+                "age": cl_name3,
+                "gender": cl_name4,
+                "email": cl_name5,
+                "number": cl_name6,
+            }
+            with open('entry.json', 'w') as openfile:
+                # Reading from json file
+                json_object = json.dump(dictionary, openfile)
+            
 
         L1 = Label(self.master, bg="#DCDEDE", text="Database name", font=('System', 9))
         L1.place(x=3,y=30)
@@ -230,7 +244,6 @@ class MainWindow(Frame):
 
 
     def table(self):
-
         tbl_frame = Frame(self.master, height=400, width=200)
         tbl_frame.pack(side='top', fill='both')
         tbl = ttk.Treeview(tbl_frame, height=15)
@@ -248,35 +261,42 @@ class MainWindow(Frame):
 
         tbl.heading("#0", text="", anchor=CENTER)
         tbl.heading("people_id", text="Id", anchor=CENTER)
-        tbl.heading("first_name", text="Name", anchor=CENTER)
-        tbl.heading("last_name", text="Surname",anchor=CENTER)
-        tbl.heading("age", text="Age", anchor=CENTER)
-        tbl.heading("gender", text="Gender", anchor=CENTER)
-        tbl.heading("e_mail", text="E-mail", anchor=CENTER)
-        tbl.heading("number", text="Number", anchor=CENTER)
+        tbl.heading("first_name", text=manage.r_name, anchor=CENTER)
+        tbl.heading("last_name", text=manage.r_surname,anchor=CENTER)
+        tbl.heading("age", text=manage.r_age, anchor=CENTER)
+        tbl.heading("gender", text=manage.r_gender, anchor=CENTER)
+        tbl.heading("e_mail", text=manage.r_email, anchor=CENTER)
+        tbl.heading("number", text=manage.r_number, anchor=CENTER)
     
         tbl.insert(parent='', index='end', iid=0, text='',
-        values=('','','', '', '', '', ''))
+        values=('', manage.name_row1, manage.surname_row1, manage.age_row1, manage.gender_row1, manage.email_row1, manage.number_row1))
+
         tbl.insert(parent='',index='end',iid=1, text='',
-        values=('','','', '', '', '', ''))
+        values=('', manage.name_row2, manage.surname_row2, manage.age_row2, manage.gender_row2, manage.email_row2, manage.number_row2))
+
         tbl.insert(parent='', index='end', iid=2, text='',
-        values=('','','', '', '', '', ''))
+        values=('', manage.name_row3, manage.surname_row3, manage.age_row3, manage.gender_row3, manage.email_row3, manage.number_row3))
+
         tbl.insert(parent='', index='end', iid=3, text='',
-        values=('','','', '', '', '', ''))
+        values=('', manage.name_row4, manage.surname_row4, manage.age_row4, manage.gender_row4, manage.email_row4, manage.number_row4))
+
         tbl.insert(parent='',index='end',iid=4, text='',
-        values=('','','', '', '', '', ''))
+        values=('', manage.name_row5, manage.surname_row5, manage.age_row5, manage.gender_row5, manage.email_row5, manage.number_row5))
+
         tbl.insert(parent='', index='end', iid=5, text='',
-        values=('','','', '', '', '', ''))
+        values=('', manage.name_row6, manage.surname_row6, manage.age_row6, manage.gender_row6, manage.email_row6, manage.number_row6))
+
         tbl.insert(parent='', index='end', iid=6, text='',
-        values=('','','', '', '', '', ''))
+        values=('', manage.name_row7, manage.surname_row7, manage.age_row7, manage.gender_row7, manage.email_row7, manage.number_row7))
+
         tbl.insert(parent='',index='end',iid=7, text='',
-        values=('','','', '', '', '', ''))
+        values=('', manage.name_row8, manage.surname_row8, manage.age_row8, manage.gender_row8, manage.email_row8, manage.number_row8))
+
         tbl.insert(parent='', index='end', iid=8, text='',
-        values=('','','', '', '', '', ''))
+        values=('', manage.name_row9, manage.surname_row9, manage.age_row9, manage.gender_row9, manage.email_row9, manage.number_row9))
+
         tbl.insert(parent='', index='end', iid=9, text='',
-        values=('','','', '', '', '', ''))
-        tbl.insert(parent='',index='end',iid=10, text='',
-        values=('','','', '', '', '', ''))
+        values=('', manage.name_row10, manage.surname_row10, manage.age_row10, manage.gender_row10, manage.email_row10, manage.number_row10))
 
         tbl.place(x=0, y=0)
 
@@ -295,5 +315,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
