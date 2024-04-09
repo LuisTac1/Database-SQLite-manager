@@ -17,6 +17,8 @@ $ pip install tkcalendar
 $ pip install pandas
 ``
 
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/LuisTac1/Database-SQLite-manager/blob/main/LICENSE)
+
 # Author
 Luis Eduardo
 https://github.com/LuisTac1
