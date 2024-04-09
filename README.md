@@ -1,3 +1,5 @@
+[![NPM](https://www.sqlite.org/images/sqlite370_banner.gif)]()
+
 # SQLite3 data manager with GUI
 
 ## About
