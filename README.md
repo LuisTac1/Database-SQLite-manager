@@ -5,12 +5,14 @@ This is a simple database manager with GUI. This program reads, creates, adds an
 
 ## How to run
 To run this program you will need to install the "pandas" library (for SQL data management) and "tkcalendar" (to render the calendar box in Interface) on your terminal.
-- pandas
-- tkcalendar
 
+- tkcalendar
+``
+$ pip install tkcalendar
+``
+- pandas
 ``
 $ pip install pandas
-$ pip install tkcalendar
 ``
 
 # Author
